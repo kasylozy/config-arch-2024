@@ -1,5 +1,3 @@
-
-
 # Enable multilib
 sudo vim /etc/pacman.conf
 
