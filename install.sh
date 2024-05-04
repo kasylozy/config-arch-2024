@@ -91,7 +91,9 @@ function configuration_yay()
 function install_aur()
 {
         yay -Syyu --needed --noconfirm \
-                aur/opera
+                aur/opera\
+                vmware-workstation \
+                vmware-host-modules-dkms-git
 }
 
 function configure_keyboard_french_canada()
@@ -162,6 +164,14 @@ function maildev_docker()
         fi
 }
 
+function configure_network_vmware ()
+{
+        sudo rsync -avPh ./systemd/ /etc/systemd/system/
+        sudo systemctl enable --now vmware.service
+        sudo systemctl enable --now vmware-usbarbitrator.service
+        sudo systemctl enable --now vmware-workstation-server.service
+}
+
 function update_config()
 {
         rsync -avPh ./config/* ~/.config/
@@ -172,13 +182,14 @@ function main()
 {
         install_packages
         configuration_yay
-        install_aur
+        #install_aur
         configure_keyboard_french_canada
         enable_network_manager
         configure_mariadb
         configure_ohMyZsh
         configure_postfix
         maildev_docker
+        configure_network_vmware
         update_config
 }
 
