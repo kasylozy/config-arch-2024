@@ -200,6 +200,7 @@ smart_borders on
 
 bindsym $mod+p exec thunar
 for_window [class="Thunar"] floating enable
+for_window [class="file-roller"] floating enable
 
 exec --no-startup-id xset s off
 exec --no-startup-id xset -dpms
