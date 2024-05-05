@@ -78,9 +78,7 @@ function install_packages()
                 gnome-disk-utility \
                 nautilus \
                 docker \
-		transmission-gtk \
-		thunar-archive-plugin \
-		file-roller
+		transmission-gtk
 }
 
 function configuration_yay()
