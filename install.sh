@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-set -x
 
 function install_packages()
 {
@@ -91,7 +90,7 @@ function configuration_yay()
 function install_aur()
 {
         yay -Syyu --needed --noconfirm \
-                aur/opera\
+                aur/opera \
                 vmware-workstation \
                 vmware-host-modules-dkms-git
 }
@@ -167,9 +166,7 @@ function maildev_docker()
 function configure_network_vmware ()
 {
         sudo rsync -avPh ./systemd/ /etc/systemd/system/
-        sudo systemctl enable --now vmware.service
-        sudo systemctl enable --now vmware-usbarbitrator.service
-        sudo systemctl enable --now vmware-workstation-server.service
+        sudo systemctl enable --now vmware{,-usbarbitrator,-workstation-server}.service
 }
 
 function update_config()
@@ -182,7 +179,7 @@ function main()
 {
         install_packages
         configuration_yay
-        #install_aur
+        install_aur
         configure_keyboard_french_canada
         enable_network_manager
         configure_mariadb
