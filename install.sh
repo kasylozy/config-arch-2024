@@ -78,7 +78,72 @@ function install_packages()
                 nautilus \
                 docker \
 		transmission-gtk \
-		dosfstools
+		dosfstools \
+		perl-text-iconv \
+		extra/xdebug
+}
+
+function install_php ()
+{
+	sudo pacman -Syyu --needed --noconfirm \
+		composer
+	yay -Syyu --needed --noconfirm \
+		aur/php83 \
+		aur/php83-gd \
+		aur/php83-pdo \
+		aur/php83-gmp \
+		aur/php83-ftp \
+		aur/php83-zip \
+		aur/php83-cli \
+		aur/php83-xml \
+		aur/php83-xsl \
+		aur/php83-bz2 \
+		aur/php83-ffi \
+		aur/php83-dom \
+		aur/php83-dba \
+		aur/php83-cgi \
+		aur/php83-phar \
+		aur/php83-pecl \
+		aur/php83-pear \
+		aur/php83-tidy \
+		aur/php83-snmp \
+		aur/php83-odbc \
+		aur/php83-ldap \
+		aur/php83-intl \
+		aur/php83-curl \
+		aur/php83-exif \
+		aur/php83-imap \
+		aur/php83-pcntl \
+		aur/php83-shmop \
+		aur/php83-posix \
+		aur/php83-pgsql \
+		aur/php83-mysql \
+		aur/php83-iconv \
+		aur/php83-embed \
+		aur/php83-ctype \
+		aur/php83-pspell \
+		aur/php83-redis \
+		aur/php83-sqlite \
+		aur/php83-bcmath \
+		aur/php83-sodium \
+		aur/php83-mcrypt \
+		aur/php83-igbinary \
+		aur/php83-enchant \
+		aur/php83-sockets \
+		aur/php83-openssl \
+		aur/php83-gettext \
+		aur/php83-opcache \
+		aur/php83-firebird \
+		aur/php83-xdebug \
+		aur/php83-fileinfo \
+		aur/php83-calendar \
+		aur/php83-mbstring \
+		aur/php83-imagick \
+		aur/php83-simplexml \
+		aur/php83-xmlwriter \
+		aur/php83-xmlreader \
+		aur/php83-tokenizer \
+		php83-xdebug
 }
 
 function configuration_yay()
@@ -189,6 +254,13 @@ function disable_error_network ()
 	sudo systemctl mask systemd-networkd-wait-online.service
 }
 
+function configure_php ()
+{
+	sudo rm -f /usr/bin/php
+	sudo ln -s /usr/bin/php83 /usr/bin/php
+	sudo rsync -avPh ./php/ /etc/php83/conf.d/
+}
+
 function update_config()
 {
         rsync -avPh ./config/* ~/.config/
@@ -198,6 +270,7 @@ function update_config()
 function main()
 {
         install_packages
+	install_php
         configuration_yay
         install_aur
         configure_keyboard_french_canada
@@ -209,7 +282,8 @@ function main()
         enable_services_vmware
         move_default_picture
  	disable_error_network
- 	update_config
+ 	configure_php
+	update_config
 }
 
 main
