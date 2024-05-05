@@ -169,6 +169,12 @@ function configure_network_vmware ()
         sudo systemctl enable --now vmware{,-usbarbitrator,-workstation-server}.service
 }
 
+
+function move_default_picture()
+{
+	rsync -avPh ./Pictures ~/
+}
+
 function update_config()
 {
         rsync -avPh ./config/* ~/.config/
@@ -187,6 +193,7 @@ function main()
         configure_postfix
         maildev_docker
         configure_network_vmware
+        move_default_picture
         update_config
 }
 
