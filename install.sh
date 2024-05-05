@@ -77,7 +77,8 @@ function install_packages()
                 gnome-screenshot \
                 gnome-disk-utility \
                 nautilus \
-                docker
+                docker \
+		transmission-gtk
 }
 
 function configuration_yay()
