@@ -113,6 +113,7 @@ function enable_network_manager()
 function configure_mariadb()
 {
         if [ `systemctl is-enabled mariadb` = "disabled" ]; then
+		sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
                 sudo systemctl enable --now mariadb
         fi
 }
