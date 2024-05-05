@@ -79,7 +79,8 @@ function install_packages()
                 nautilus \
                 docker \
 		transmission-gtk \
-		thunar-archive-plugin
+		thunar-archive-plugin \
+		file-roller
 }
 
 function configuration_yay()
