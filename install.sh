@@ -69,7 +69,6 @@ function install_packages()
                 thunar-volman \
                 xfce4-settings \
                 neofetch \
-                spotify-launcher \
                 bitwarden \
                 base-devel \
                 dkms \
@@ -99,7 +98,8 @@ function install_aur()
         yay -Syyu --needed --noconfirm \
                 aur/opera \
 		ncurses5-compat-libs \
-                vmware-workstation
+                vmware-workstation \
+		spotify
 }
 
 function configure_keyboard_french_canada()
