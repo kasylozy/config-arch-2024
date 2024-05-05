@@ -5,6 +5,11 @@ set -e
 function install_packages()
 {
         sudo pacman -Syyu --needed --noconfirm \
+		fuse2 \
+		gtkmm \
+		linux-headers \
+		pcsclite \
+		libcanberra \
                 wine \
                 firefox \
                 wget \
@@ -91,8 +96,8 @@ function install_aur()
 {
         yay -Syyu --needed --noconfirm \
                 aur/opera \
-                vmware-workstation \
-                vmware-host-modules-dkms-git
+		ncurses5-compat-libs \
+                vmware-workstation
 }
 
 function configure_keyboard_french_canada()
@@ -164,16 +169,22 @@ function maildev_docker()
         fi
 }
 
-function configure_network_vmware ()
+function enable_services_vmware ()
 {
-        sudo rsync -avPh ./systemd/ /etc/systemd/system/
-        sudo systemctl enable --now vmware{,-usbarbitrator,-workstation-server}.service
+	sudo systemctl enable vmware-networks.service  vmware-usbarbitrator.service 
+	sudo systemctl start vmware-networks.service  vmware-usbarbitrator.service
+	sudo modprobe -a vmw_vmci vmmon
 }
-
 
 function move_default_picture()
 {
 	rsync -avPh ./Pictures ~/
+}
+
+function disable_error_network ()
+{
+	sudo systemctl disable systemd-networkd-wait-online.service
+	sudo systemctl mask systemd-networkd-wait-online.service
 }
 
 function update_config()
@@ -193,9 +204,10 @@ function main()
         configure_ohMyZsh
         configure_postfix
         maildev_docker
-        configure_network_vmware
+        enable_services_vmware
         move_default_picture
-        update_config
+ 	disable_error_network
+ 	update_config
 }
 
 main
