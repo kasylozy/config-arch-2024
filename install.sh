@@ -80,7 +80,8 @@ function install_packages()
 		transmission-gtk \
 		dosfstools \
 		perl-text-iconv \
-		extra/xdebug
+		extra/xdebug \
+		extra/gnome-calculator
 }
 
 function install_php ()
@@ -270,8 +271,8 @@ function update_config()
 function main()
 {
         install_packages
+	configuration_yay
 	install_php
-        configuration_yay
         install_aur
         configure_keyboard_french_canada
         enable_network_manager
