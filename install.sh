@@ -5,11 +5,6 @@ set -e
 function install_packages()
 {
         sudo pacman -Syyu --needed --noconfirm \
-		fuse2 \
-		gtkmm \
-		linux-headers \
-		pcsclite \
-		libcanberra \
                 wine \
                 firefox \
                 wget \
@@ -81,13 +76,12 @@ function install_packages()
 		dosfstools \
 		perl-text-iconv \
 		extra/xdebug \
-		extra/gnome-calculator
+		extra/gnome-calculator \
+		composer
 }
 
 function install_php ()
 {
-	sudo pacman -Syyu --needed --noconfirm \
-		composer
 	yay -Syyu --needed --noconfirm \
 		aur/php83 \
 		aur/php83-gd \
@@ -163,8 +157,6 @@ function install_aur()
 {
         yay -Syyu --needed --noconfirm \
                 aur/opera \
-		ncurses5-compat-libs \
-                vmware-workstation \
 		spotify
 }
 
@@ -237,13 +229,6 @@ function maildev_docker()
         fi
 }
 
-function enable_services_vmware ()
-{
-	sudo systemctl enable vmware-networks.service  vmware-usbarbitrator.service 
-	sudo systemctl start vmware-networks.service  vmware-usbarbitrator.service
-	sudo modprobe -a vmw_vmci vmmon
-}
-
 function move_default_picture()
 {
 	rsync -avPh ./Pictures ~/
@@ -260,6 +245,18 @@ function configure_php ()
 	sudo rm -f /usr/bin/php
 	sudo ln -s /usr/bin/php83 /usr/bin/php
 	sudo rsync -avPh ./php/ /etc/php83/conf.d/
+}
+
+function install_virtualbox ()
+{
+	sudo pacman -S virtualbox-host-modules-arch \
+		virtualbox \
+		--needed --noconfirm
+	sudo modprobe vboxdrv
+VBOXVERSION=$(vboxmanage -v | cut -dr -f1)
+	wget https://download.virtualbox.org/virtualbox/${VBOXVERSION}/Oracle_VM_VirtualBox_Extension_Pack-${VBOXVERSION}.vbox-extpack
+	sudo vboxmanage extpack install Oracle_VM_VirtualBox_Extension_Pack-${VBOXVERSION}.vbox-extpack
+	sudo usermod -aG vboxusers $USER
 }
 
 function update_config()
@@ -280,10 +277,10 @@ function main()
         configure_ohMyZsh
         configure_postfix
         maildev_docker
-        enable_services_vmware
         move_default_picture
  	disable_error_network
  	configure_php
+	install_virtualbox
 	update_config
 }
 
