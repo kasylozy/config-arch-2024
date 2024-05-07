@@ -77,7 +77,8 @@ function install_packages()
 		perl-text-iconv \
 		extra/xdebug \
 		extra/gnome-calculator \
-		composer
+		composer \
+		thunderbird
 }
 
 function install_php ()
