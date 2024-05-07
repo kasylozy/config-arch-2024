@@ -252,6 +252,7 @@ function install_virtualbox ()
 {
 	sudo pacman -S virtualbox-host-modules-arch \
 		virtualbox \
+  		virtualbox-guest-iso \
 		--needed --noconfirm
 	sudo modprobe vboxdrv
 VBOXVERSION=$(vboxmanage -v | cut -dr -f1)
